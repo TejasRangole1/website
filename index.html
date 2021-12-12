@@ -1,8 +1,35 @@
 <!DOCTYPE html>
 <html>
+    <style>
+        h1 {text-align: center;}
+        h2 {text-align: center}
+        p {text-align:center;}
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
     <body>
         <h1>Automatic Greyscale to Color Conversion </h1>
-        <p> Abstract</p>
-        <p> Implementation</p>
+        <p>Tejas Rangole & James Higgins</p>
+        <h2> Motivation </h2>
+        <p>Color is very important when it comes to memory, emotions, and so many other aspects in life. Giving an image color can change the whole meaning behind an image and add details that would otherwise be lost from just viewing and analyzing it in grayscale. Computerized colorization can be used to help better the use of grayscale images within recognition algorithms by converting them to colored images to help with identifying textures and materials used in objects within these images. Color is extremely important, so improving existing algorithms and developing new and more efficient ways to convert grayscale images to colored ones can help in so many different fields of study. Our goal is to colorize an image automatically with minimal adjustments. 
+        </p>
+        <h2> Possible Solutions </h2>
+        <p> Some prior solutions involve non-parametric methods in which given an input grayscale image as well as one or more color reference images to be used as source data. The color is then transferred onto the input grayscale image from analogous regions of the colored reference image (Hertzmann et al., 2001). Similarly another approach is to use similar images (R.K Gupta et.al)  by first extracting some amount of super pixels per image. For each superpixel we then extract Gabor features and SURF features and then match each reference pixel to the correct target superpixel using the Cascade Feature algorithm and then finally eliminate unmatched features using the Image Space Voting algorithm. The advantages of the above two approaches is that they do not require large datasets and are computationally faster. However, both of these approaches are harder to  implement than neural networks. Additionally, neural network based approaches are more accurate in colorizing an image. Also it goes without saying that  a neural network does not require human labeling of images and can colorize an image automatically. We will implement colorization by training a CNN to map from a grayscale input to a distribution over quantized color value outputs.
+        </p>
+        <h2> Approach</h2>
+        <p>We implemented the image colorization approach proposed by Zhang et al.
+        The approach is to convert a color image into the Lab color space where L is the lightness, a is the red-green channel, and b is the blue-yellow channel.
+        We take the greyscale input image, extract the L-channel, input the L-channel into a Convolutional Neural Network (CNN) to predict the ab channel.
+        After we have obtained the ab-channel, we will concatenate it with the L-channel to produce the output image.
+        </p>
+        <img src="lab_conversion.png" style="width:800px; height:500px;">
+        <p> The ab space is quantized into 313 bins. For every gray pixel we choose one of the 313 classes making this a multinomial classification problem.
+         We then take the mean of the distribution and choosing the ab-pair corresponding with the nearest quantized bin center, we will compute an annealed mean.
+         By doing this however, we get desaturated colors. To account for this, there is an added class-rebalancing term that resamples rarer colors so that they are more represented than they originally were in the training set.
+         This produces more vibrant colors.
+        </p>
     </body>
 </html>
