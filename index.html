@@ -4,11 +4,22 @@
         h1 {text-align: center;}
         h2 {text-align: center}
         p {text-align:center;}
-        img {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+
+        #images {
+          text-align:center;
+          margin:50px auto;
         }
+       #images a{
+         margin:0px 20px;
+         display:inline-block;
+         text-decoration:none;
+         color:black;
+       }
+
+       .highlight .sb {
+           color: rgb(12, 12, 12);
+       }
+        
     </style>
     <body>
         <h1>Automatic Greyscale to Color Conversion </h1>
@@ -25,11 +36,44 @@
         We take the greyscale input image, extract the L-channel, input the L-channel into a Convolutional Neural Network (CNN) to predict the ab channel.
         After we have obtained the ab-channel, we will concatenate it with the L-channel to produce the output image.
         </p>
-        <img src="lab_conversion.png" style="width:800px; height:500px;">
-        <p> The ab space is quantized into 313 bins. For every gray pixel we choose one of the 313 classes making this a multinomial classification problem.
-         We then take the mean of the distribution and choosing the ab-pair corresponding with the nearest quantized bin center, we will compute an annealed mean.
-         By doing this however, we get desaturated colors. To account for this, there is an added class-rebalancing term that resamples rarer colors so that they are more represented than they originally were in the training set.
-         This produces more vibrant colors.
+        <img src="lab_conversion.png" align="center" style="width:1000px; height:500px;">
+        <p> 
+            The output of the network is a probability distribution of ab values that contains 313 bins.
+            The network is trained with a loss function which includes a class rebalancing term. This class rebalancing term resamples rarer colors so they are more represented in the output image.
+            Once we have gotten a probability distribution for a given grayscale input pixel, we convert it to a single ab-value by interpolating the mean and mode of the distribution. This is done to achieve spatial consistency.
         </p>
+        <div id="images">
+            <img src="loss_function.png">
+            <div class="caption"> Loss function with rebalancing term v(.)</div>
+            <img src="ab_dist.png">
+            <div class="caption">ab Probability Distribution</div> 
+        </div>
+        <h2>
+            Implementation
+        </h2>
+        <p>
+           We used pre-trained models built by Zhang et al which is available on his github repository here:
+           <a href = https://github.com/richzhang/colorization>Richard Zhang's repository</a> 
+           We implemented the functionality of extracting the L-channel from  the input image, pass it as input to the nerual network, and then concatenate the output with the original L-channel to get colored image. Below is some of the code used in the implementation.
+            <div class="language-markdown highlighter-rouge">
+                <div class="highlight">
+                    <pre class="highlight">
+                        <code>
+                            <span class="sb">
+                                # Initialize the network and tell it to use the gpu
+                                colorizer_eccv16 = eccv16(pretrained=True).eval()
+                                colorizer_eccv16.cuda()
+                            </span>
+                        </code>
+                        <p>Here we extract the L-channel from the input image, resize it to 256 x 256 to fit the input size and then convert it to a tensor to pass into the network</p>
+                        <code>
+                            <span class="sb">
+                                
+                            </span>
+                        </code>
+                    </pre> 
+                </div>
+           </div>
+        </p>  
     </body>
 </html>
