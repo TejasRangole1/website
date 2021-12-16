@@ -127,7 +127,7 @@
         </h2>
         <p>
             We measured the accuracy of the colorizer program using per-pixel accuracy. Each pixel within the newly colored image was compared to the ground truth image. 
-            A threshhold of 0.05 was used when comparing the pixel range of 0.0:1.0. The threshhold was chosen by us after viewing the first image we colored and comparing the per-pixel accuracy as we changed the threshhold.
+            A threshold of 0.05 was used when comparing the pixel range of 0.0:1.0. The threshold was chosen by us after viewing the first image we colored and comparing the per-pixel accuracy as we changed the threshold.
             0.05 was the best option when trying to calculate the accuracy of the colorizer program. Using this, we measured multiple different kinds of images, as shown below.
         </p>
         <div id="images">
@@ -144,7 +144,7 @@
             The colorizer also tends to favor adding to the b channel, as is shown with the tendency of pictures to have yellow added to them. We had one result, the Coca-Cola caps, that seemed to color well, but had a very low per-pixel accuracy.
             It was mentioned, in the paper we were following, that the results for their program were found using three methods.
             The most prominent one was the use of people in trying to determine whether the image colored by the program was the real image, or the ground truth.
-            They used the percentage of people that chose their image, over the groud truth, as their metric for successful colorings. If we were to do another test with the colorizer, we would like to use a method similar to this in order to get our results, compared to per-pixel accuracy.
+            They used the percentage of people that chose their image, over the ground truth, as their metric for successful coloring. If we were to do another test with the colorizer, we would like to use a method similar to this in order to get our results, compared to per-pixel accuracy.
         </p>
         <h2>
             References
