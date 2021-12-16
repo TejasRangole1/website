@@ -19,6 +19,25 @@
        .highlight .sb {
            color: rgb(12, 12, 12);
        }
+
+       code {
+        display: block;
+            width: 90%;
+            min-height: 5em;
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-family: monospace;
+            border: 1px solid #bbb;
+            padding: 1em;
+            white-space:pre-wrap;
+       }
+
+       .content:focus{
+            border: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+        }
         
     </style>
     <body>
@@ -59,7 +78,7 @@
                 <div class="highlight">
                     <pre class="highlight">
                         <code>
-                            <span class="sb">
+                            <span class="content">
                                 # Initialize the network and tell it to use the gpu
                                 colorizer_eccv16 = eccv16(pretrained=True).eval()
                                 colorizer_eccv16.cuda()
@@ -67,8 +86,34 @@
                         </code>
                         <p>Here we extract the L-channel from the input image, resize it to 256 x 256 to fit the input size and then convert it to a tensor to pass into the network</p>
                         <code>
-                            <span class="sb">
-                                
+                            <span class="content">
+                                # Grab L channel of original image
+                                img_lab = color.rgb2lab(img)
+                                img_l_channel = img_lab[:,:,0]
+
+                                # Resize original image and grab L channel of resized image
+                                img_arr = Image.fromarray(img)
+                                resized_img_arr = img_arr.resize((256, 256), 3)
+                                resized_rgb = np.asarray(resize_img_arr)
+                                resized_lab = color.rgb2lab(resized_rgb)
+                                resized_l_channel = resized_lab[:,:,0]
+                                original_tensor = torch.Tensor(img_l_channel)[None,None,:,:]
+                                resized_tensor = torch.Tensor(resized_l_channel)[None,None,:,:]
+                            </span>
+                        </code>
+                        <p>Getting output from neural network and concatentating L channel from original image with predicted ab-channel
+
+                        </p>
+                        <code>
+                            <span class="content">
+                                # Getting output from network
+                                output_ab = colorizer.eccv16(resized_tensor).cpu()
+
+                                # Concatenating L and ab channels
+                                result_lab = torch.cat((original_tensor), result_ab), dim=1)
+
+                                #Converting back to rgb
+                                output_img = color.lab2rgb(result_lab)
                             </span>
                         </code>
                     </pre> 
