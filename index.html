@@ -55,7 +55,9 @@
         We take the greyscale input image, extract the L-channel, input the L-channel into a Convolutional Neural Network (CNN) to predict the ab channel.
         After we have obtained the ab-channel, we will concatenate it with the L-channel to produce the output image.
         </p>
-        <img src="lab_conversion.png" align="center" style="width:1000px; height:500px;">
+        <div id="images">
+            <img src="lab_conversion.png" style=" width:1000px; height:500px;">
+        </div>
         <p> 
             The output of the network is a probability distribution of ab values that contains 313 bins.
             The network is trained with a loss function which includes a class rebalancing term. This class rebalancing term resamples rarer colors so they are more represented in the output image.
@@ -119,6 +121,55 @@
                     </pre> 
                 </div>
            </div>
-        </p>  
+        </p>
+        <h2>
+            Results
+        </h2>
+        <p>
+            We measured the accuracy of the colorizer program using per-pixel accuracy. Each pixel within the newly colored image was compared to the ground truth image. 
+            A threshhold of 0.05 was used when comparing the pixel range of 0.0:1.0. The threshhold was chosen by us after viewing the first image we colored and comparing the per-pixel accuracy as we changed the threshhold.
+            0.05 was the best option when trying to calculate the accuracy of the colorizer program. Using this, we measured multiple different kinds of images, as shown below.
+        </p>
+        <div id="images">
+            <img src="results_1.jpg">
+            <img src="results_2.jpg">
+            <img src="results_3.jpg">
+            <img src="results_4.jpg">
+        </div>
+        <h2>
+            Discussion
+        </h2>
+        <p>
+            As the results show, the colorizer does well when coloring images that have backgrounds with minimum change in color. The program works best when coloring animals and people, in most cases.
+            The colorizer also tends to favor adding to the b channel, as is shown with the tendency of pictures to have yellow added to them. We had one result, the Coca-Cola caps, that seemed to color well, but had a very low per-pixel accuracy.
+            It was mentioned, in the paper we were following, that the results for their program were found using three methods.
+            The most prominent one was the use of people in trying to determine whether the image colored by the program was the real image, or the ground truth.
+            They used the percentage of people that chose their image, over the groud truth, as their metric for successful colorings. If we were to do another test with the colorizer, we would like to use a method similar to this in order to get our results, compared to per-pixel accuracy.
+        </p>
+        <h2>
+            References
+        </h2>
+        <p>
+            Zhang, Isola, Efros. Colorful Image Colorization. In ECCV 2016.
+            <br>Hertzmann, A., Jacobs, C.E., Oliver, N., Curless, B., Salesin, D.H.: Image analo-
+            gies. In: Proceedings of the 28th annual conference on Computer graphics and
+            interactive techniques, ACM (2001) 327–340
+            <br>
+            <br>@inproceedings{zhang2016colorful,
+                <br>title={Colorful Image Colorization},
+                <br>author={Zhang, Richard and Isola, Phillip and Efros, Alexei A},
+                <br>booktitle={ECCV},
+                <br>year={2016}
+                <br>}
+        </p>>
+        <h2>
+            Links
+        </h2>
+        <p>
+            <a href = https://docs.google.com/document/d/1wVAcldHG4zDpgrpjQ_l5ZInJqOXqgn3dvvclMuEhfkU/edit?usp=sharing>Project Proposal</a> 
+            <br><a href = https://docs.google.com/document/d/1NukBQisCR6uHZ3fcVEFs-XlJ5-Y0w3xWhl78SrcyvPo/edit?usp=sharing>Midterm Report</a> 
+            <br><a href = https://www.youtube.com/watch?v=9HPZTQumn2k>Presentation</a> 
+            <br><a href = https://github.com/Jameschiggins/CS639-Final-Project>Project Github</a> 
+        </p>>
     </body>
 </html>
